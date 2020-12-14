@@ -13,10 +13,10 @@ export class TopBarComponent implements OnInit {
   }
 
    public onConnexion(){
-      this.router.navigate(['/identify/login']);
+     this.router.navigate(['/identify/login']);
    }
   
-   public onCreateAccount(){
-    this.router.navigate(['/identify/registration']);
+  public onCreateAccount(){
+     this.router.navigate(['/identify/registration']);
    }
 }

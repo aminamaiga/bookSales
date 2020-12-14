@@ -26,7 +26,7 @@
                           <div class="wishlist d-flex flex-row align-items-center justify-content-end">
                               <div class="wishlist_icon"><img src="assets/heart.png" alt=""></div>
                               <div class="wishlist_content">
-                                  <div class="wishlist_text"><a href="#">J'aime</a></div>
+                                  <div class="wishlist_text" (click)="onGoToWishlist()"><a>J'aime</a></div>
                                   <div class="wishlist_count">10</div>
                               </div>
                           </div> <!-- Cart -->
@@ -36,7 +36,7 @@
                                       <div class="cart_count"><span>3</span></div>
                                   </div>
                                   <div class="cart_content">
-                                      <div class="cart_text"><a href="#">Mon panier</a></div>
+                                      <div class="cart_text" (click)="onGoTocart()"><a>Mon panier</a></div>
                                       <div class="cart_price">85</div>
                                   </div>
                               </div>
@@ -48,11 +48,9 @@
       </div>
 <!-- Main Navigation -->
 <menu></menu>
-<!--//MenuBar-->
-<!--CarouselSlide-->
-<slider></slider>
 <!--//CarouselSlide-->
-<div>
+<div class="margintop1"></div>
+<div class="col-12">
     <router-outlet></router-outlet>
 </div>
 </div>

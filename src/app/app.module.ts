@@ -3,10 +3,12 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import {HttpClientModule} from '@angular/common/http';
-import { PagesComponent } from './pages/pages.component';
 import { PagesModule } from './pages/pages.module';
 import { MainModule } from './main/main.module';
-import { MainComponent } from './main/main.component';
+import { CategoyService } from './services/categoy.service';
+import { ProduitService } from './services/produit.service';
+import { AuthService } from './services/auth.service';
+import { CartService } from './services/cart.service';
 
 @NgModule({
   declarations: [
@@ -19,7 +21,7 @@ import { MainComponent } from './main/main.component';
     PagesModule,
     MainModule
   ],
-  providers: [],
+  providers: [CategoyService, ProduitService, AuthService, CartService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

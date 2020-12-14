@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-main',
@@ -7,9 +8,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MainComponent implements OnInit {
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
   }
+
+  public onGoTocart(){
+    this.router.navigate(['/cart']);
+ }
+
+ public onGoToWishlist(){
+  this.router.navigate(['/whishlist']);
+ }
 
 }
