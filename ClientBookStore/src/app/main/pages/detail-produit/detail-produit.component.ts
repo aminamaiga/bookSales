@@ -14,8 +14,11 @@ export class DetailProduitComponent implements OnInit {
   book: any;
   isShow: boolean = false;
   bookPhoto: any;
-  quantite = 1;
-  maxCommand: number = 0;
+  quantite: any;
+  maxCommand: number[] = [];
+  isConnect;
+  user;
+  message: any;
 
   constructor(private route: ActivatedRoute, 
     private produitService: ProduitService,
@@ -25,6 +28,11 @@ export class DetailProduitComponent implements OnInit {
       .subscribe(params => {
         this.bookId = params['bookId'];
       });
+    this.isConnect = localStorage.getItem("isLogin");
+    if(localStorage.getItem('user')){
+      const u = localStorage.getItem('user') || '{}';
+      this.user = JSON.parse(u);
+    }
   }
 
   ngOnInit(): void {
@@ -39,6 +47,7 @@ export class DetailProduitComponent implements OnInit {
           this.book = data;
           this.isShow = true;
           this.bookPhoto = SERVER_URL + this.book.photo;
+          this.maxCommand = this.range(1, this.book.quantite);
       },
       error => {
       }
@@ -46,16 +55,25 @@ export class DetailProduitComponent implements OnInit {
   }
 
   addTocart(){
-    this.cartService.addProduitTocart({"user_id": "5fd89bf4d098bf36bc0c8ee2",
-     order: {"book_id": this.bookId, quantite: 2}}).subscribe(
-      (data) =>{
-        console.log(data);
+    if(this.isConnect && this.isConnect == 'true'){
+      this.cartService.addProduitTocart({"user_id": this.user._id,
+     order: {"book_id": this.bookId, quantite: parseInt( this.quantite)}}).subscribe(
+      (response: any) =>{
+        if(response.resultat == 1){
+          this.getBook();
+          this.cartService.getCart(this.user._id);
+          this.message = response.message;
+        }
       }, (error) => {
-
       }
     );
+    }else{
+      this.message = 'Veuillez vous connecter avant de continuer.';
+    }
   }
+  buyNow(){
 
+  }
   public range(start: number, end: number) {
     return Array(end - start + 1).fill(0).map((_, idx) => start + idx)
   }

@@ -44,6 +44,8 @@ var upload = multer({
 
 const MongoClient = require('mongodb').MongoClient;
 const ObjectID    = require('mongodb').ObjectId;
+const { Double } = require('bson');
+const { resolveMx } = require('dns');
 const url         = "mongodb://localhost:27017";
 const dbName = "onlinebooksales";
 
@@ -82,10 +84,13 @@ MongoClient.connect(url, {useNewUrlParser: true}, (err, client) => {
                 var book = {
                     name : req.body.name, 
                     photo: req.file.filename, 
-                    quantite: req.body.quantite,
+                    quantite: parseInt(req.body.quantite),
                     type: req.body.type,
-                    price: req.body.price,
-                    is_promo: req.body.is_promo
+                    price: parseFloat(req.body.price),
+                    is_promo: req.body.is_promo,
+                    description: req.body.description,
+                    auteur: req.body.auteur,
+                    nbr_page: parseInt(req.body.nbr_page)
                  };
                  db.collection("books").insertOne(book);
                 res.end({result:1, "book" : book});
@@ -162,6 +167,7 @@ MongoClient.connect(url, {useNewUrlParser: true}, (err, client) => {
         }
     });
     
+      
    /**create user */
    app.post("/users", (req,res) => {
     try {
@@ -201,20 +207,33 @@ app.post("/carts", (req,res) => {
         db.collection("carts").findOne({"user_id": new ObjectID(req.body.user_id)}, (err, documents) => {
             if(documents){
                  result = documents.orders.map(o =>{
-                  if(o.book_id == req.body.order.book_id){
+                  if(o && o.book_id == req.body.order.book_id){
                     return {quantite: (o.quantite + req.body.order.quantite), book_id: o.book_id}
                   }
+                  return null;
                 });
                 let documentsId = documents['_id'];
-               db.collection("carts").update(
-                { _id: documentsId },
-                  {
-                    $set: {
-                        "orders": result
-                    }
-                }
-                );
-                res.end(JSON.stringify({"resultat": 1, "message": "Le livre a été ajouté dans ton panier", "data": documents}));  
+                console.log(result);
+                  if(result[0] != null){
+                    db.collection("carts").updateOne(
+                        { _id: documentsId },
+                          {
+                            $set: {
+                                "orders": result
+                            }
+                        });
+                res.end(JSON.stringify({"resultat": 1, "message": "Le livre a été ajouté dans ton panier"}));  
+                  } else {
+                     console.log('else')
+                    orders.push(req.body.order);
+                    console.log(orders);
+                    db.collection("carts").updateOne(
+                           {id: documentsId},
+                           { $push: {"orders":  {"quantite" : 20} }}
+                        );
+                     res.end(JSON.stringify({"resultat": 1, "message": "Le livre a été ajouté dans ton panier"}));
+            
+                  }
              } else {
                 orders.push(req.body.order);
                 db.collection("carts").insertOne(
@@ -225,8 +244,45 @@ app.post("/carts", (req,res) => {
                  res.end(JSON.stringify({"resultat": 1, "message": "Le livre a été ajouté dans ton panier"}));
              }  
         });
+         // des incrementation
+         db.collection("books").updateOne({
+            "_id": new ObjectID(req.body.order.book_id)
+          },
+          {
+            "$inc": {
+              "quantite": -parseInt(req.body.order.quantite)
+            }
+          });
      }catch(e) {
         console.log("Erreur sur /carts add : " + e);
+        res.end(JSON.stringify({"resultat": 0, "message": e}));
+    }
+});
+//get user cart 
+app.get("/carts/users/:id", (req,res) => {
+    let id = req.params.id;
+    let orders = [];
+    data = {};
+    try {
+        db.collection("carts").findOne({"user_id": new ObjectID(id)}, (err, documents) => {             
+                console.log(documents);
+                if(documents){
+                    orders = documents.orders.map(o =>{
+                            if(o){
+                                return new ObjectID( o.book_id);
+                            }
+                        });
+                    db.collection("books").find({_id: {
+                        "$in": orders
+                    } 
+                }).toArray((err, documents2) => {
+                        res.end(JSON.stringify({"resultat": 1, "books": documents2, "orders": documents}));
+                    });
+                } else
+                res.end(); 
+            });
+    } catch(e) {
+        console.log("Erreur sur /carts : " + e);
         res.end(JSON.stringify({"resultat": 0, "message": e}));
     }
 });

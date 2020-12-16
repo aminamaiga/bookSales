@@ -6,11 +6,22 @@ import { SERVER_URL } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class CartService {
+  public cartCount = 0;
+  public cartData: any;
 
   constructor(private http: HttpClient) { }
 
   public getCart(userId: any){
-    return this.http.get(SERVER_URL + "");
+    return this.http.get(SERVER_URL + "carts/users/" +userId).subscribe(
+      (response: any) =>{
+        if(response.resultat == 1){
+          this.cartData = response;
+          this.cartCount = this.cartData.orders.orders.length;
+        }
+      }, (error) => {
+           
+      }
+    );
   }
 
   public getWhish(userId: any){

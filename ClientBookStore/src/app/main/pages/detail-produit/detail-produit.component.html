@@ -7,11 +7,14 @@
                    <div><img [src]="bookPhoto"></div>
                 </div>
              </article>
-             <!-- gallery-wrap .end// -->
+   
           </aside>
           <aside class="col-sm-7">
              <article class="card-body p-5">
-                <h3 class="title mb-3">{{ book.name }}</h3>
+               <div *ngIf="message" class="alert alert-primary" role="alert">
+                 {{ message }}
+               </div>
+                <h3 class="title mb-3">{{ book.name }} - {{book.auteur}}</h3>
                 <p class="price-detail-wrap"> 
                    <span class="price h3 text-warning"> 
                    <span class="currency"></span><span class="num"> € {{ book.price}}</span>
@@ -22,9 +25,7 @@
                 <dl class="item-property">
                    <dt>Déscription</dt>
                    <dd>
-                      <p>Here goes description consectetur adipisicing elit, sed do eiusmod
-                         tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                         quis nostrud exercitation ullamco 
+                      <p>{{ book.description}}
                       </p>
                    </dd>
                 </dl>
@@ -38,9 +39,15 @@
                    <div class="col-sm-5">
                       <dl class="param param-inline">
                          <dt>Quantité: </dt>
+                         <div *ngIf="book.quantite == 0; else stock" class="text-danger">
+                            En rupture
+                         </div>
+                         <ng-template #stock>
+                            <div class="text-success">En stock</div>
+                         </ng-template>
                          <dd>
                             <select [(ngModel)]="quantite" class="form-control form-control-sm" style="width:70px;">
-                               <option> 1 </option>
+                               <option *ngFor="let i of maxCommand" [value]=i> {{ i }} </option>
                             </select>
                          </dd>
                       </dl>
@@ -50,7 +57,7 @@
                 </div>
                 <!-- row.// -->
                 <hr>
-                <button class="btn btn-primary text-uppercase"> Acheter Maintenant </button>&nbsp;
+                <button (click)="buyNow()" class="btn btn-primary text-uppercase"> Acheter Maintenant </button>&nbsp;
                 <button (click)="addTocart()" class="btn btn-outline-primary text-uppercase"> <i class="fas fa-shopping-cart"></i>Ajouter au panier </button>
              </article>
              <!-- card-body.// -->

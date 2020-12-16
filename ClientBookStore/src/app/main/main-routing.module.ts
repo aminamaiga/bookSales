@@ -19,7 +19,8 @@ const routes: Routes = [
       {path: 'cart', component: CartComponent},
       {path: 'whishlist', component: WhishlistComponent},
       {path: 'produit', component: BookComponent},
-      {path: 'produit/:categorie', component: BookComponent}
+      {path: 'produit/:categorie', component: BookComponent},
+      {path: 'produit/:name', component: BookComponent}
     ]
   }
 ];

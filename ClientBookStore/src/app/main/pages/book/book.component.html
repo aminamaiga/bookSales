@@ -5,7 +5,7 @@
              <img *ngIf="book" [src]="book.photo">
           </div>
           <div class="info-wrap">
-             <h6 class="title text-dots"><a>{{book.name}}</a></h6>
+             <h6 class="title text-dots"><a>{{book.name}} - {{book.auteur}}</a></h6>
              <div class="action-wrap" style="cursor: pointer;" (click)="onGoToShowDetail(book)">
                 <button class="btn btn-primary btn-sm float-right">Voir plus</button>
                 <div class="price-wrap h5">

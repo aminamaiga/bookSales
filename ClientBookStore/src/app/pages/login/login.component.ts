@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Route, Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
+import { CartService } from 'src/app/services/cart.service';
 
 @Component({
   selector: 'app-login',
@@ -10,7 +11,7 @@ import { AuthService } from 'src/app/services/auth.service';
 export class LoginComponent implements OnInit {
   public conForm: FormGroup = new FormGroup({});
 
-  constructor(private authSrvice: AuthService, private router: Router) { }
+  constructor(private authSrvice: AuthService, private router: Router, private cartService: CartService) { }
    response: any;
 
   ngOnInit(): void {
@@ -25,6 +26,7 @@ export class LoginComponent implements OnInit {
           localStorage.setItem("user", JSON.stringify(dataRec.data));
           localStorage.setItem("isLogin", "true");
           this.router.navigate(['/main/produit']);
+          this.cartService.getCart(dataRec.data._id);
         }
      },
      (errors) => {

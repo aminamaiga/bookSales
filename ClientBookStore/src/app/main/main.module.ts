@@ -10,8 +10,10 @@ import { CategorieComponent } from './pages/categorie/categorie.component';
 import { HomeComponent } from './pages/home/home.component';
 import { CartComponent } from './pages/cart/cart.component';
 import { WhishlistComponent } from './pages/whishlist/whishlist.component';
-import { DetailProduitComponent } from './pages/detail-produit/detail-produit.component';
 import { BookComponent } from './pages/book/book.component';
+import { DetailProduitComponent } from './pages/detail-produit/detail-produit.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 
 
 @NgModule({
@@ -21,6 +23,8 @@ import { BookComponent } from './pages/book/book.component';
   imports: [
     CommonModule,
     MainRoutingModule,
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class MainModule { }

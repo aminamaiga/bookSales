@@ -15,6 +15,7 @@ export class BookComponent implements OnInit {
   categorie: any;
   SERVER_URL = SERVER_URL;
   defaultPhoto = 'assets/livre.jpg';
+  name: any;
 
   constructor(private produitService: ProduitService, private route: ActivatedRoute,
     private router: Router) { 
@@ -22,6 +23,7 @@ export class BookComponent implements OnInit {
       .queryParams
       .subscribe(params => {
         this.categorie = params['categorie'];
+        this.name = params['name'];
       });
   }
 
