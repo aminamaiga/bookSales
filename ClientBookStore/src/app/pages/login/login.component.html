@@ -1,0 +1,18 @@
+<div class="wrapper fadeInDown">
+    <div id="formContent">
+
+      <!-- Icon -->
+      <div class="fadeIn first">
+        <img src="assets/user.svg" id="icon" alt="profile" />
+      </div>
+      <!-- Login Form -->
+      <form [formGroup]="conForm" (ngSubmit)="onLogin()">
+        <input type="text" id="login" class="fadeIn second" formControlName="login" required placeholder="login">
+        <input type="password" id="password" class="fadeIn second" formControlName="password" required placeholder="mat de passe">
+        <button [disabled]="!conForm.valid" type="submit" class="btn btn-primary btn-block">Connexion</button>
+      </form>
+      <div *ngIf="response" id="formFooter">
+        <a [ngClass]="response.resultat == '1'? 'text-success' : 'text-danger'">{{ response.message }}</a>
+      </div>
+    </div>
+  </div>

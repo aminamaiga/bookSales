@@ -1,0 +1,28 @@
+<div class="top_bar">
+    <div class="container">
+        <div class="row">
+            <div class="col d-flex flex-row">
+                <div class="top_bar_contact_item">
+                    <div class="top_bar_icon"><img src="assets/phone.png" alt=""></div>+ 04 11 11 11 11
+                </div>
+                <div class="top_bar_contact_item">
+                    <div class="top_bar_icon"><img src="assets/mail.png" alt=""></div><a>booksales@sales.com</a>
+                </div>
+                <div class="top_bar_content ml-auto">
+                    <div class="top_bar_menu">
+                        <div *ngIf="isConnect && isConnect== 'true'" class="text-primary">
+                            <a *ngIf="user && user.prenom"> {{ user.prenom }}</a>&nbsp; <a *ngIf="user && user.nom"> {{ user.nom }}</a>
+                        </div>
+                    </div>
+                    <div class="top_bar_user">
+                        <div class="user_icon"><img src="assets/user.svg" alt=""></div>
+                        <div (click)="onCreateAccount()" style="cursor: pointer;"><a>Compte</a></div>
+                        <div (click)="onConnexion()" style="cursor: pointer;" *ngIf="isConnect && isConnect=='false'"><a>Connexion</a></div>&nbsp;
+                        <div (click)="onLogOut()" style="cursor: pointer;" *ngIf="isConnect && isConnect=='true'"><a>D&eacute;connexion</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+  

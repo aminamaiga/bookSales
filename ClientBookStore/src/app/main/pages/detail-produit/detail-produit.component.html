@@ -1,0 +1,65 @@
+<div class="container" *ngIf="isShow">
+    <div class="card">
+       <div class="row">
+          <aside class="col-sm-5 border-right">
+             <article class="gallery-wrap">
+                <div class="img-big-wrap">
+                   <div><img [src]="bookPhoto"></div>
+                </div>
+             </article>
+             <!-- gallery-wrap .end// -->
+          </aside>
+          <aside class="col-sm-7">
+             <article class="card-body p-5">
+                <h3 class="title mb-3">{{ book.name }}</h3>
+                <p class="price-detail-wrap"> 
+                   <span class="price h3 text-warning"> 
+                   <span class="currency"></span><span class="num"> € {{ book.price}}</span>
+                   </span> 
+                   <span> / le livre</span> 
+                </p>
+                <!-- price-detail-wrap .// -->
+                <dl class="item-property">
+                   <dt>Déscription</dt>
+                   <dd>
+                      <p>Here goes description consectetur adipisicing elit, sed do eiusmod
+                         tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                         quis nostrud exercitation ullamco 
+                      </p>
+                   </dd>
+                </dl>
+                <dl class="param param-feature">
+                   <dt>Code catégorie</dt>
+                   <dd>{{ book.type }}</dd>
+                </dl>
+                <!-- item-property-hor .// -->
+                <hr>
+                <div class="row">
+                   <div class="col-sm-5">
+                      <dl class="param param-inline">
+                         <dt>Quantité: </dt>
+                         <dd>
+                            <select [(ngModel)]="quantite" class="form-control form-control-sm" style="width:70px;">
+                               <option> 1 </option>
+                            </select>
+                         </dd>
+                      </dl>
+                      <!-- item-property .// -->
+                   </div>
+                   <!-- col.// -->
+                </div>
+                <!-- row.// -->
+                <hr>
+                <button class="btn btn-primary text-uppercase"> Acheter Maintenant </button>&nbsp;
+                <button (click)="addTocart()" class="btn btn-outline-primary text-uppercase"> <i class="fas fa-shopping-cart"></i>Ajouter au panier </button>
+             </article>
+             <!-- card-body.// -->
+          </aside>
+          <!-- col.// -->
+       </div>
+       <!-- row.// -->
+    </div>
+    <!-- card.// -->
+ </div>
+ 
+ 
